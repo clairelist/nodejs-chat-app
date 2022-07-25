@@ -6,6 +6,8 @@ const Filter = require("bad-words");
 const { generateMessage, generateLocationMessage } = require("./utils/messages");
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./utils/users");
 
+const removeWords = require('./removeWords');
+
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -41,6 +43,7 @@ io.on("connection", socket => {
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
     const filter = new Filter();
+    filter.removeWords(...removeWords);
 
     if (filter.isProfane(message)) {
       return callback("Profanity is not allowed!");
