@@ -7,6 +7,7 @@ const { generateMessage, generateLocationMessage } = require("./utils/messages")
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./utils/users");
 
 const removeWords = require('./removeWords');
+const addSlurs = require('./addSlurs');
 
 const app = express();
 const server = http.createServer(app);
@@ -44,13 +45,14 @@ io.on("connection", socket => {
     const user = getUser(socket.id);
     const filter = new Filter();
     filter.removeWords(...removeWords);
+    filter.addWords(...addSlurs); //filter for racial slurs we are not allowing since it is not implementing. To build!
 
-    if (filter.isProfane(message)) {
-      return callback("Profanity is not allowed!");
-    } else {
+    // if (filter.isProfane(message)) {
+    //   return callback("Profanity is not allowed!");
+    // } else { ...below, }
       io.to(user.room).emit("message", generateMessage(user.username, message));
       callback();
-    }
+    
   });
 
   socket.on("sendLocation", (coords, callback) => {
