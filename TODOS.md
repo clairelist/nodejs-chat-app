@@ -1,5 +1,4 @@
 TODOS:: 
-	IMPLEMENT AUTOSCROLLING ON NEW MESSAGE!
 
 	HASH ROOM NAME
 	-Or otherwise obfuscate it !
