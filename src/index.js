@@ -45,13 +45,15 @@ io.on("connection", socket => {
     const user = getUser(socket.id);
     const filter = new Filter();
     filter.removeWords(...removeWords);
-    filter.addWords(...addSlurs); //filter for racial slurs we are not allowing since it is not implementing. To build!
+    filter.addWords(...addSlurs); //filter for racial slurs we are not allowing since it is not implementing. To test!
 
-    // if (filter.isProfane(message)) {
-    //   return callback("Profanity is not allowed!");
-    // } else { ...below, }
+    if (filter.isProfane(message)) {
+     return callback("Slurs are not allowed!");
+    } else { 
       io.to(user.room).emit("message", generateMessage(user.username, message));
-      callback();
+      callback(); 
+    }
+      
     
   });
 
