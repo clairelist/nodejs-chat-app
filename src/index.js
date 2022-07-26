@@ -48,7 +48,9 @@ io.on("connection", socket => {
     filter.addWords(...addSlurs); //filter for racial slurs we are not allowing since it is not implementing. To test!
 
     if (filter.isProfane(message)) {
-     return callback("Slurs are not allowed!");
+    // return callback("Slurs are not allowed!");
+     io.to(user.room).emit('message',generateMessage(user.username,'Slurs are not allowed!'));
+     callback();
     } else { 
       io.to(user.room).emit("message", generateMessage(user.username, message));
       callback(); 
